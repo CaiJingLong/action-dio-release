@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:action_dio_release/action_dio_release.dart';
+import 'package:action_dio_release/src/utils.dart';
 import 'package:github_action_context/github_action_context.dart';
 import 'package:github_action_core/github_action_core.dart';
 
@@ -28,6 +29,27 @@ Future<void> main(List<String> arguments) async {
 
   final String commentBody = body;
 
+  // check input
+  final githubToken = getInput('github-token');
+  if (githubToken == null || githubToken.isEmpty) {
+    info('The input github-token is empty, skip.');
+    return;
+  }
+  final pubToken = getInput('pub-credentials-json');
+  if (pubToken == null || pubToken.isEmpty) {
+    info('The input pub-credentials-json is empty, skip.');
+    return;
+  }
+  var dryRunInput = getInput('dry-run');
+  if (dryRunInput == null || dryRunInput.isEmpty) {
+    dryRunInput = 'false';
+  }
+
+  final dryRun = dryRunInput.toLowerCase() == 'true';
+
+  // write pub token to file
+  writePubTokenToFile(pubToken);
+  
   await handleIssueComment(commentBody);
 
   // startGroup('context.fields');
