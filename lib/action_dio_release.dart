@@ -7,4 +7,4 @@ library action_dio_release;
 export 'src/github.dart';
 export 'src/pkg.dart';
 export 'src/pub.dart';
-export 'src/update_file.dart';
+export 'src/commiter.dart';

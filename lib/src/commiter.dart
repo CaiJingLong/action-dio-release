@@ -139,32 +139,30 @@ class PkgCommiter {
     final tagName = '${pkg.name}_v${pkg.version}';
     final releaseName = '${pkg.name} ${pkg.version}';
 
-    final slug = RepositorySlug(
-      context.repo.owner,
-      context.repo.repo,
-    );
-
     final body = '''
   ## What's new
   $currentVersionChangeLog
 ''';
 
-    final release = CreateRelease.from(
-      tagName: tagName,
+    final result = await releasePkg(
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      tag: tagName,
       name: releaseName,
-      targetCommitish: 'main',
-      isDraft: false,
-      isPrerelease: false,
       body: body,
     );
 
-    final result = await github.repositories.createRelease(slug, release);
     if (result.hasErrors) {
       print(result.errors);
       setFailed('create release failed');
     }
 
+    startGroup('Release $releaseName');
+
     final releaseUrl = result.htmlUrl;
-    info('release url: $releaseUrl');
+    info('Release url: $releaseUrl');
+    info('Release body: $body');
+
+    groupEnd();
   }
 }

@@ -20,3 +20,25 @@ Future<bool> checkUserWritePermission({
   final permission = response['permission'];
   return permission == 'admin' || permission == 'write';
 }
+
+Future<Release> releasePkg({
+  required String owner,
+  required String repo,
+  required String tag,
+  required String name,
+  required String body,
+}) {
+  final createRelease = CreateRelease.from(
+    tagName: tag,
+    name: name,
+    targetCommitish: 'main',
+    isDraft: false,
+    isPrerelease: false,
+    body: body,
+  );
+
+  return github.repositories.createRelease(
+    RepositorySlug(owner, repo),
+    createRelease,
+  );
+}
