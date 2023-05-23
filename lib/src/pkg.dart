@@ -1,4 +1,3 @@
-import 'package:github/github.dart';
 import 'package:github_action_core/github_action_core.dart';
 
 enum PkgInfo {
