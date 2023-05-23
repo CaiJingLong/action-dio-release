@@ -2,6 +2,7 @@ import 'package:github/github.dart';
 import 'package:github_action_core/github_action_core.dart';
 
 late GitHub github;
+late String githubToken;
 bool showGithubLog = false;
 
 Future<bool> checkUserWritePermission({
@@ -13,10 +14,9 @@ Future<bool> checkUserWritePermission({
       '/repos/$owner/$repo/collaborators/$username/permission');
 
   if (showGithubLog) {
-    print('checkUserWritePermission response: $response');
+    info('checkUserWritePermission response: $response');
   }
 
   final permission = response['permission'];
-
   return permission == 'admin' || permission == 'write';
 }
