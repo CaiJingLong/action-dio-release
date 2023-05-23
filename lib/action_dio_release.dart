@@ -4,5 +4,6 @@
 
 library action_dio_release;
 
-export 'src/permission.dart';
+export 'src/github.dart';
 export 'src/pkg.dart';
+export 'src/utils.dart';

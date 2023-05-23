@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:action_dio_release/action_dio_release.dart';
+import 'package:github/github.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -21,5 +24,33 @@ void main() {
     // test no invalid pkg name
     final pkgList3 = convertPkgList('invalid_pkg: v1.0.0');
     expect(pkgList3.length, 0);
+  });
+
+  group('Test permission', () {
+    github = GitHub(
+      auth: Authentication.withToken(Platform.environment['GITHUB_TOKEN']!),
+    );
+    showGithubLog = true;
+    test('admin', () async {
+      expect(
+        await checkUserWritePermission(
+          owner: 'FlutterCandies',
+          repo: 'flutter_photo_manager',
+          username: 'caijinglong',
+        ),
+        true,
+      );
+    });
+
+    test('write', () async {
+      expect(
+        await checkUserWritePermission(
+          owner: 'cfug',
+          repo: 'dio',
+          username: 'caijinglong',
+        ),
+        true,
+      );
+    });
   });
 }
