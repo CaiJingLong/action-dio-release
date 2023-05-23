@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'package:yaml/yaml.dart' as yaml;
+
 import 'package:github_action_core/github_action_core.dart';
 
 enum PkgInfo {
@@ -64,6 +67,14 @@ class Pkg {
     final pkgInfo = PkgInfo.fromName(name);
 
     return Pkg(pkgInfo, version);
+  }
+
+  bool get isFlutterPackage {
+    final pubspecFile = File('$subPath/pubspec.yaml');
+    final pubspec = pubspecFile.readAsStringSync();
+    final doc = yaml.loadYaml(pubspec) as yaml.YamlMap;
+    final env = doc['environment'] as yaml.YamlMap;
+    return env.containsKey('flutter');
   }
 }
 

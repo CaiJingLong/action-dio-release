@@ -21,8 +21,13 @@ Future<void> publishPkg(
   bool dryRun = false,
 }) async {
   final path = pkg.subPath;
+
+  final isFlutterPackage = pkg.isFlutterPackage;
+
+  final bin = isFlutterPackage ? 'flutter' : 'dart';
+
   final dryRunFlag = dryRun ? '--dry-run' : '';
-  final cmd = 'dart pub publish --force -C $path $dryRunFlag';
+  final cmd = '$bin pub publish --force -C $path $dryRunFlag';
 
   final result = await Process.run(
     'bash',
