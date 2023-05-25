@@ -1,6 +1,7 @@
-# Write action by dart
+# Release for cfug/dio
 
-## Getting Started
+This plugin is written in Dart and its usage is consistent with [cfug/dio_issue_release_action][].
 
-1. Click `Use the template` button to create your own repository.
-2. Write dart code in `bin/main.dart`.
+I will migrate code to v2 branch of [cfug/dio_issue_release_action][]
+
+[cfug/dio_issue_release_action]: https://github.com/cfug/dio_issue_release_action
